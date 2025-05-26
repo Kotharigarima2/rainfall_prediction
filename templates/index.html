@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rainfall Prediction System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Rainfall Prediction System</h1>
+    <label class="switch">
+      <input type="checkbox" id="darkModeToggle">
+      <span class="slider round"></span>
+    </label>
+  </header>
+
+  <div class="container">
+    <nav>
+      <button onclick="showForm('monthlyForm')" class="month-to-annual">Monthly → Annual</button>
+      <button onclick="showForm('annualForm')" class="annual-to-month">Annual</button>
+    </nav>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <!-- Monthly to Annual Form -->
+    <form id="monthlyForm" method="POST" class="form-section">
+      <input type="hidden" name="prediction_type" value="monthly">
+      <select name="monthly_subdivision" onchange="onSubdivisionChange(this.value)" required>
+        <option value="">Select Subdivision</option>
+        {% for loc in monthly_locations %}
+          <option value="{{ loc }}">{{ loc }}</option>
+        {% endfor %}
+      </select>
+
+      <div class="info-block">
+        <p id="subdivisionInfo">Subdivision details will appear here.</p>
+        <p id="weatherInfo">Current weather: <span id="weatherText">--</span></p>
+      </div>
+
+      <input type="number" name="monthly_year" placeholder="Year" required>
+      <input type="number" step="0.01" name="may" placeholder="May Rainfall" required>
+      <input type="number" step="0.01" name="jun" placeholder="June Rainfall" required>
+      <input type="number" step="0.01" name="jul" placeholder="July Rainfall" required>
+      <input type="number" step="0.01" name="aug" placeholder="August Rainfall" required>
+      <input type="number" step="0.01" name="sep" placeholder="September Rainfall" required>
+      <button type="submit">Predict</button>
+    </form>
+
+    <!-- Annual Prediction Form -->
+    <form id="annualForm" method="POST" class="form-section" style="display:none;">
+      <input type="hidden" name="prediction_type" value="annual">
+      <select name="annual_location" required>
+        <option value="">Select Subdivision</option>
+        {% for loc in annual_locations %}
+          <option value="{{ loc }}">{{ loc }}</option>
+        {% endfor %}
+      </select>
+      {% for i in range(1, 6) %}
+        <input type="number" name="year{{ i }}" placeholder="Rainfall Year {{ i }}" required>
+      {% endfor %}
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+      <div class="result">
+        <h2>Prediction: {{ prediction | round(2) }} mm</h2>
+        {% if confidence_interval %}
+          <p>Confidence Interval: {{ confidence_interval[0] }} mm – {{ confidence_interval[1] }} mm</p>
+        {% endif %}
+      </div>
+
+      {% if input_data and prediction_type == 'monthly' %}
+        <canvas id="rainfallChart"></canvas>
+        <script>
+          const ctx = document.getElementById('rainfallChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: ['May','June','July','August','September'],
+              datasets: [{
+                label: 'Monthly Rainfall',
+                data: [
+                  {{ input_data.may }}, {{ input_data.jun }},
+                  {{ input_data.jul }}, {{ input_data.aug }}, {{ input_data.sep }}
+                ],
+                borderColor: 'blue',
+                tension: 0.3
+              }]
+            }
+          });
+        </script>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

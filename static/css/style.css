@@ -1,0 +1,215 @@
+/* Base & Dark Mode */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  height: 100vh;
+  background: url('/static/css/bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  transition: background 0.3s, color 0.3s;
+  color: #333;
+}
+
+body.dark-mode {
+  background: url('/static/css/bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #e0e0e0;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+  color: inherit;
+}
+
+/* Dark Mode Toggle */
+.switch {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  width: 40px;
+  height: 20px;
+}
+.switch input {
+  display: none;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 20px;
+  inset: 0;
+  transition: 0.4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  top: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+input:checked + .slider {
+  background-color: #2196F3;
+}
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Container */
+.container {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 90%;
+  margin: 100px auto 40px;
+  transition: background 0.3s, color 0.3s;
+  text-align: center;
+}
+
+body.dark-mode .container {
+  background: rgba(30, 30, 30, 0.95); /* Lighter dark background */
+  color: #e0e0e0;
+}
+
+/* Navigation Buttons */
+nav {
+  margin-bottom: 20px;
+}
+nav button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
+
+nav button:hover {
+  background-color: #10B981; /* Emerald green */
+  color: #fff;
+  border: 1px solid #0f9d6e;
+}
+
+body.dark-mode nav button:hover {
+  background-color: #2d6a4f; /* Lighter emerald color in dark mode */
+  color: #fff;
+  border: 1px solid #1f4f39;
+}
+
+/* Form Styling */
+.form-section {
+  margin: 20px 0;
+}
+input, select, button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+button[type="submit"] {
+  background: #28a745;
+  color: white;
+  border: none;
+  transition: background 0.2s;
+}
+button[type="submit"]:hover {
+  background: #218838;
+}
+
+body.dark-mode button[type="submit"]:hover {
+  background: #1e7e34; /* Darker green on hover */
+}
+
+/* Result Box */
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  background: #eef;
+  border-left: 5px solid #00f;
+  border-radius: 8px;
+}
+
+body.dark-mode .result {
+  background: #3a3a3a;
+  color: #e0e0e0;
+  border-left: 5px solid #00bfff;
+}
+
+body.dark-mode .result:hover {
+  background: #2e2e2e;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Errors and Info */
+.error {
+  color: red;
+  text-align: center;
+}
+
+.info-block {
+  margin: 10px 0;
+  padding: 10px;
+  background: #eef9ff;
+  border: 1px solid #b3e5fc;
+  border-radius: 4px;
+}
+
+body.dark-mode .info-block {
+  background: #333;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+body.dark-mode .info-block:hover {
+  background: #444;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Graph Styling */
+canvas {
+  margin-top: 30px;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+body.dark-mode canvas {
+  background: #2c2c2c;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .chartjs-render-monitor {
+  color: #e0e0e0; /* Make chart labels visible */
+}
+
+/* Additional Adjustments */
+body.dark-mode select, body.dark-mode input, body.dark-mode button {
+  background-color: #444;
+  border: 1px solid #666;
+  color: #e0e0e0;
+}
+
+body.dark-mode select:focus, body.dark-mode input:focus {
+  border-color: #2196F3;
+}
